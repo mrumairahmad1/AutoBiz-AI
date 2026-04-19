@@ -41,29 +41,57 @@ const SUGGESTIONS = [
   'Show revenue breakdown by category.',
 ]
 
-const fmtTime = ts => ts ? new Date(ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : ''
+const fmtTime = ts => ts ? new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
 
-function AccuracyBadge({ accuracy, responseTime, intent }) {
-  // Only show for sales/inventory intents — never for end/off-topic
-  const businessIntents = ['sales','inventory','sales_action','inventory_action']
+/**
+ * Returns true if the message content looks like an error/API-failure response.
+ * We suppress the accuracy badge for these cases.
+ */
+function isErrorResponse(content) {
+  if (!content) return true
+  const lower = content.toLowerCase()
+  return (
+    lower.startsWith('error:') ||
+    lower.includes('rate limit') ||
+    lower.includes('api limit') ||
+    lower.includes('too many requests') ||
+    lower.includes('something went wrong') ||
+    lower.includes('stream failed') ||
+    lower.includes('service unavailable') ||
+    lower.includes('timed out') ||
+    lower.includes('overloaded') ||
+    lower.includes('quota exceeded')
+  )
+}
+
+function AccuracyBadge({ accuracy, responseTime, intent, content, streaming }) {
+  // Never show while still streaming
+  if (streaming) return null
+
+  // Never show on error or API-limit responses
+  if (isErrorResponse(content)) return null
+
+  // Only show for business intents that actually went through an agent
+  const businessIntents = ['sales', 'inventory', 'sales_action', 'inventory_action']
   if (!businessIntents.includes(intent)) return null
-  // Only show once accuracy is available
-  if (accuracy === null || accuracy === undefined) return null
+
+  // Only show once accuracy is available (a real number, not null/undefined)
+  if (accuracy === null || accuracy === undefined || typeof accuracy !== 'number') return null
 
   const color = accuracy >= 95 ? 'var(--green)' : accuracy >= 90 ? 'var(--amber)' : 'var(--red)'
-  const label = (intent === 'inventory_action' || intent === 'sales_action') ? 'Action' :
-                intent === 'inventory' ? 'Inventory' : 'Sales'
+  const label = (intent === 'inventory_action' || intent === 'sales_action') ? 'Action'
+    : intent === 'inventory' ? 'Inventory' : 'Sales'
 
   return (
-    <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-      <div style={{ display:'flex', alignItems:'center', gap:4, background:`${color}12`, border:`1px solid ${color}30`, borderRadius:100, padding:'2px 8px' }}>
-        <div style={{ width:5, height:5, borderRadius:'50%', background:color }}/>
-        <span style={{ fontSize:10, fontWeight:700, color, fontFamily:'var(--font-mono)' }}>{accuracy}%</span>
-        <span style={{ fontSize:10, color:'var(--text-dim)' }}>{label}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: `${color}12`, border: `1px solid ${color}30`, borderRadius: 100, padding: '2px 8px' }}>
+        <div style={{ width: 5, height: 5, borderRadius: '50%', background: color }}/>
+        <span style={{ fontSize: 10, fontWeight: 700, color, fontFamily: 'var(--font-mono)' }}>{accuracy}%</span>
+        <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{label}</span>
       </div>
       {responseTime > 0 && (
-        <span style={{ fontSize:10, color:'var(--text-dim)' }}>
-          {responseTime > 1000 ? `${(responseTime/1000).toFixed(1)}s` : `${responseTime}ms`}
+        <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>
+          {responseTime > 1000 ? `${(responseTime / 1000).toFixed(1)}s` : `${responseTime}ms`}
         </span>
       )}
     </div>
@@ -88,10 +116,20 @@ export default function Chat() {
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return
-    const currentInput = input.trim()
+    const currentInput   = input.trim()
     const historyPayload = buildHistory(messages)
     const userMsg = { role: 'user', content: currentInput, ts: Date.now() }
-    setMessages(p => [...p, userMsg, { role: 'assistant', content: '', ts: Date.now(), accuracy: null, responseTime: null, intent: null, streaming: true }])
+
+    // Add user message + placeholder assistant message
+    setMessages(p => [
+      ...p,
+      userMsg,
+      {
+        role: 'assistant', content: '', ts: Date.now(),
+        accuracy: null, responseTime: null, intent: null,
+        streaming: true, isError: false,
+      },
+    ])
     setInput('')
     setLoading(true)
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
@@ -118,23 +156,27 @@ export default function Chat() {
             if (data.token && !data.done) {
               setMessages(p => {
                 const u = [...p]
-                u[u.length-1] = { ...u[u.length-1], content: u[u.length-1].content + data.token }
+                u[u.length - 1] = { ...u[u.length - 1], content: u[u.length - 1].content + data.token }
                 return u
               })
             }
             if (data.done) {
-              // Apply cleanup + set accuracy from backend
               setMessages(p => {
-                const u = [...p]
-                const last = u[u.length-1]
-                const acc = data.accuracy || {}
-                u[u.length-1] = {
+                const u    = [...p]
+                const last = u[u.length - 1]
+                const acc  = data.accuracy || {}
+                const finalContent = cleanResponse(last.content)
+                const hasError = isErrorResponse(finalContent)
+
+                u[u.length - 1] = {
                   ...last,
-                  content:      cleanResponse(last.content),
-                  accuracy:     acc.accuracy    ?? null,
-                  responseTime: acc.response_time_ms ?? null,
-                  intent:       acc.intent      ?? null,
+                  content:      finalContent,
+                  // Only store accuracy metadata if this is NOT an error response
+                  accuracy:     hasError ? null : (acc.accuracy     ?? null),
+                  responseTime: hasError ? null : (acc.response_time_ms ?? null),
+                  intent:       hasError ? null : (acc.intent        ?? null),
                   streaming:    false,
+                  isError:      hasError,
                 }
                 return u
               })
@@ -143,9 +185,17 @@ export default function Chat() {
         }
       }
     } catch (err) {
+      // Network/stream error — mark as error so badge is suppressed
       setMessages(p => {
         const u = [...p]
-        u[u.length-1] = { ...u[u.length-1], content: 'Error: ' + (err.message || 'Something went wrong.'), streaming: false }
+        u[u.length - 1] = {
+          ...u[u.length - 1],
+          content:   'Error: ' + (err.message || 'Something went wrong.'),
+          streaming: false,
+          isError:   true,
+          accuracy:  null,
+          intent:    null,
+        }
         return u
       })
     } finally {
@@ -157,7 +207,7 @@ export default function Chat() {
   const handleChange  = e => { setInput(e.target.value); e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px' }
 
   return (
-    <div style={{ background:'var(--void)', height:'100vh', display:'flex', flexDirection:'column', overflow:'hidden' }}>
+    <div style={{ background: 'var(--void)', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <style>{`
         .msg-enter { animation: fade-up 0.28s var(--ease) both; }
         .cursor-blink { animation: cursor-blink 1s ease-in-out infinite; display:inline-block; width:2px; height:14px; background:var(--blue-light); vertical-align:text-bottom; margin-left:2px; border-radius:1px; }
@@ -165,60 +215,62 @@ export default function Chat() {
         .sugg-chip:hover { border-color:var(--border-hi); color:var(--text); background:rgba(29,111,255,0.06); }
         @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
       `}</style>
-      <div className="grid-bg" style={{ position:'fixed' }}/>
+      <div className="grid-bg" style={{ position: 'fixed' }}/>
       <Navbar/>
 
-      <div style={{ flex:1, display:'flex', flexDirection:'column', maxWidth:860, width:'100%', margin:'0 auto', overflow:'hidden', position:'relative', zIndex:1 }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 860, width: '100%', margin: '0 auto', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
 
         {/* Header */}
-        <div style={{ padding:'14px 20px 10px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ width:34, height:34, borderRadius:'var(--r-md)', background:'rgba(29,111,255,0.1)', border:'1px solid var(--border-md)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--blue-light)' }}><AgentIcon/></div>
+        <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 'var(--r-md)', background: 'rgba(29,111,255,0.1)', border: '1px solid var(--border-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue-light)' }}><AgentIcon/></div>
             <div>
-              <div style={{ fontSize:14, fontWeight:600, color:'var(--text)', fontFamily:'var(--font-display)' }}>Manager Agent</div>
-              <div style={{ display:'flex', alignItems:'center', gap:5, marginTop:1 }}>
-                <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--green)', animation:'pulse-dot 2s ease-in-out infinite' }}/>
-                <span style={{ fontSize:11, color:'var(--text-muted)' }}>Online · Context-aware · Sales and Inventory</span>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', fontFamily: 'var(--font-display)' }}>Manager Agent</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', animation: 'pulse-dot 2s ease-in-out infinite' }}/>
+                <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Online · Context-aware · Sales and Inventory</span>
               </div>
             </div>
           </div>
-          <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-            <span style={{ fontSize:12, color:'var(--text-dim)' }}>{messages.length-1} messages</span>
-            <button onClick={clearHistory} className="btn btn-ghost btn-sm" style={{ padding:'5px 8px', gap:5, fontSize:12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>{messages.length - 1} messages</span>
+            <button onClick={clearHistory} className="btn btn-ghost btn-sm" style={{ padding: '5px 8px', gap: 5, fontSize: 12 }}>
               <TrashIcon/> Clear
             </button>
           </div>
         </div>
 
         {/* Messages */}
-        <div style={{ flex:1, overflowY:'auto', padding:'20px', display:'flex', flexDirection:'column', gap:16 }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {messages.map((msg, i) => (
-            <div key={i} className="msg-enter" style={{ display:'flex', gap:11, justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end' }}>
-              {msg.role==='assistant' && (
-                <div style={{ width:30, height:30, borderRadius:'var(--r-md)', background:'rgba(29,111,255,0.1)', border:'1px solid var(--border-md)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--blue-light)', flexShrink:0 }}><AgentIcon/></div>
+            <div key={i} className="msg-enter" style={{ display: 'flex', gap: 11, justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-end' }}>
+              {msg.role === 'assistant' && (
+                <div style={{ width: 30, height: 30, borderRadius: 'var(--r-md)', background: 'rgba(29,111,255,0.1)', border: '1px solid var(--border-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue-light)', flexShrink: 0 }}><AgentIcon/></div>
               )}
               <div>
-                <div style={{ maxWidth:640, padding:msg.role==='user'?'11px 16px':'13px 17px', borderRadius:msg.role==='user'?'var(--r-lg) var(--r-lg) 4px var(--r-lg)':'var(--r-lg) var(--r-lg) var(--r-lg) 4px', background:msg.role==='user'?'var(--blue)':'var(--card)', color:msg.role==='user'?'#fff':'var(--text)', border:msg.role==='user'?'none':'1px solid var(--border)', fontSize:14, lineHeight:1.75, whiteSpace:'pre-wrap', wordBreak:'break-word', boxShadow:msg.role==='user'?'0 4px 14px rgba(29,111,255,0.25)':'var(--shadow)' }}>
+                <div style={{ maxWidth: 640, padding: msg.role === 'user' ? '11px 16px' : '13px 17px', borderRadius: msg.role === 'user' ? 'var(--r-lg) var(--r-lg) 4px var(--r-lg)' : 'var(--r-lg) var(--r-lg) var(--r-lg) 4px', background: msg.role === 'user' ? 'var(--blue)' : 'var(--card)', color: msg.role === 'user' ? '#fff' : 'var(--text)', border: msg.role === 'user' ? 'none' : '1px solid var(--border)', fontSize: 14, lineHeight: 1.75, whiteSpace: 'pre-wrap', wordBreak: 'break-word', boxShadow: msg.role === 'user' ? '0 4px 14px rgba(29,111,255,0.25)' : 'var(--shadow)' }}>
                   {msg.content}
-                  {loading && i===messages.length-1 && msg.role==='assistant' && !msg.content && <span className="cursor-blink"/>}
-                  {loading && i===messages.length-1 && msg.role==='assistant' && msg.content && <span className="cursor-blink"/>}
+                  {loading && i === messages.length - 1 && msg.role === 'assistant' && !msg.content && <span className="cursor-blink"/>}
+                  {loading && i === messages.length - 1 && msg.role === 'assistant' && msg.content  && <span className="cursor-blink"/>}
                 </div>
-                {/* Timestamp + accuracy on same line, accuracy on right */}
+                {/* Timestamp + accuracy — accuracy hidden on errors */}
                 {msg.ts && (
-                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:4, gap:12, paddingLeft:msg.role==='assistant'?2:0, paddingRight:msg.role==='user'?2:0 }}>
-                    <span style={{ fontSize:10, color:'var(--text-dim)' }}>{fmtTime(msg.ts)}</span>
-                    {msg.role==='assistant' && (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4, gap: 12, paddingLeft: msg.role === 'assistant' ? 2 : 0, paddingRight: msg.role === 'user' ? 2 : 0 }}>
+                    <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{fmtTime(msg.ts)}</span>
+                    {msg.role === 'assistant' && (
                       <AccuracyBadge
                         accuracy={msg.accuracy}
                         responseTime={msg.responseTime}
                         intent={msg.intent}
+                        content={msg.content}
+                        streaming={msg.streaming}
                       />
                     )}
                   </div>
                 )}
               </div>
-              {msg.role==='user' && (
-                <div style={{ width:30, height:30, borderRadius:'var(--r-md)', background:'rgba(29,111,255,0.08)', border:'1px solid var(--border-md)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--blue-light)', flexShrink:0 }}><UserIcon/></div>
+              {msg.role === 'user' && (
+                <div style={{ width: 30, height: 30, borderRadius: 'var(--r-md)', background: 'rgba(29,111,255,0.08)', border: '1px solid var(--border-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue-light)', flexShrink: 0 }}><UserIcon/></div>
               )}
             </div>
           ))}
@@ -226,25 +278,25 @@ export default function Chat() {
         </div>
 
         {/* Suggestions */}
-        {messages.length===1 && (
-          <div style={{ padding:'0 20px 14px', overflowX:'auto', flexShrink:0 }}>
-            <div style={{ display:'flex', gap:8, paddingBottom:2 }}>
-              {SUGGESTIONS.map((s,i) => <button key={i} className="sugg-chip" onClick={()=>setInput(s)}>{s}</button>)}
+        {messages.length === 1 && (
+          <div style={{ padding: '0 20px 14px', overflowX: 'auto', flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 8, paddingBottom: 2 }}>
+              {SUGGESTIONS.map((s, i) => <button key={i} className="sugg-chip" onClick={() => setInput(s)}>{s}</button>)}
             </div>
           </div>
         )}
 
         {/* Input */}
-        <div style={{ padding:'12px 20px 20px', borderTop:'1px solid var(--border)', background:'rgba(12,15,24,0.7)', backdropFilter:'blur(12px)', flexShrink:0 }}>
-          <div style={{ background:'var(--card)', border:'1px solid var(--border-md)', borderRadius:'var(--r-lg)', padding:'10px 10px 10px 16px', display:'flex', alignItems:'flex-end', gap:10 }}>
-            <textarea ref={textareaRef} style={{ flex:1, border:'none', outline:'none', resize:'none', fontSize:14, lineHeight:1.6, fontFamily:'var(--font-body)', background:'transparent', color:'var(--text)', minHeight:36, maxHeight:120, overflow:'auto' }}
+        <div style={{ padding: '12px 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(12,15,24,0.7)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
+          <div style={{ background: 'var(--card)', border: '1px solid var(--border-md)', borderRadius: 'var(--r-lg)', padding: '10px 10px 10px 16px', display: 'flex', alignItems: 'flex-end', gap: 10 }}>
+            <textarea ref={textareaRef} style={{ flex: 1, border: 'none', outline: 'none', resize: 'none', fontSize: 14, lineHeight: 1.6, fontFamily: 'var(--font-body)', background: 'transparent', color: 'var(--text)', minHeight: 36, maxHeight: 120, overflow: 'auto' }}
               value={input} onChange={handleChange} onKeyDown={handleKeyDown}
               placeholder="Ask the Manager Agent about sales, inventory, or operations..." rows={1}/>
-            <button onClick={sendMessage} disabled={loading||!input.trim()} style={{ width:36, height:36, borderRadius:'var(--r-md)', background:loading||!input.trim()?'var(--elevated)':'var(--blue)', border:`1px solid ${loading||!input.trim()?'var(--border)':'transparent'}`, color:loading||!input.trim()?'var(--text-dim)':'#fff', cursor:loading||!input.trim()?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, transition:'var(--t)', boxShadow:loading||!input.trim()?'none':'0 4px 12px rgba(29,111,255,0.3)' }}>
-              {loading ? <div className="spinner" style={{ width:14, height:14, borderWidth:2 }}/> : <SendIcon/>}
+            <button onClick={sendMessage} disabled={loading || !input.trim()} style={{ width: 36, height: 36, borderRadius: 'var(--r-md)', background: loading || !input.trim() ? 'var(--elevated)' : 'var(--blue)', border: `1px solid ${loading || !input.trim() ? 'var(--border)' : 'transparent'}`, color: loading || !input.trim() ? 'var(--text-dim)' : '#fff', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'var(--t)', boxShadow: loading || !input.trim() ? 'none' : '0 4px 12px rgba(29,111,255,0.3)' }}>
+              {loading ? <div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }}/> : <SendIcon/>}
             </button>
           </div>
-          <p style={{ fontSize:11, color:'var(--text-dim)', textAlign:'center', marginTop:7 }}>
+          <p style={{ fontSize: 11, color: 'var(--text-dim)', textAlign: 'center', marginTop: 7 }}>
             Enter to send &nbsp;·&nbsp; Shift+Enter for new line &nbsp;·&nbsp; Business queries only
           </p>
         </div>

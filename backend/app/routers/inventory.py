@@ -1,18 +1,8 @@
 """
 Inventory Router — FIXED
-
-Root cause of "add shows success but page doesn't update":
-  When source=csv, GET was returning CSV rows.
-  But writes always go to DB.
-  So after adding to DB, the page kept showing stale CSV data.
-
-Fix:
-  - GET /inventory/ : returns DB data when source='db', CSV data when source='csv'
-  - After any write (add/update/delete), the page re-fetches. If source is still 'csv',
-    the new DB record won't show until user switches source to 'db'.
-  - So: after a successful write, we include a note in the response so the frontend
-    can show a toast telling the user data was saved to DB, and if CSV is active,
-    switch source to 'db' automatically so the new record shows immediately.
+- Writes always go to DB regardless of active source
+- REMOVED: auto-switching active source to 'db' after writes
+  (source switching is user's explicit choice only)
 """
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
@@ -24,7 +14,7 @@ from app.core.security import get_current_user, require_role
 from app.models.user import User, RoleEnum
 from app.core.rate_limiter import limiter, LIMITS
 from app.core.logger import log_audit
-from app.core.db_config import get_active_source, load_csv_data, set_active_source
+from app.core.db_config import get_active_source, load_csv_data
 
 router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
@@ -75,16 +65,22 @@ def add_inventory(
 ):
     if db.query(Inventory).filter(Inventory.sku == item.sku).first():
         raise HTTPException(status_code=400, detail=f"SKU '{item.sku}' already exists. Use a unique SKU.")
+
+    # Always write to DB regardless of active source
     new_item = Inventory(**item.dict())
     db.add(new_item)
     db.commit()
     db.refresh(new_item)
-    # Switch source to DB so newly added item is immediately visible in the page
-    if get_active_source() == "csv":
-        set_active_source("db")
+
     log_audit("INVENTORY_ADD", current_user.email,
               f"product={item.name} sku={item.sku} qty={item.quantity}")
-    return {"message": f"'{item.name}' added to inventory.", "id": new_item.id}
+
+    active = get_active_source()
+    response = {"message": f"'{item.name}' added to inventory.", "id": new_item.id}
+    # Inform frontend if CSV is active so it can show a helpful note (but NOT auto-switch)
+    if active == "csv":
+        response["source_note"] = "Item saved to database. Switch source to 'DB' to see it in this view."
+    return response
 
 
 @router.put("/{item_id}")
@@ -103,8 +99,7 @@ def update_inventory(
         setattr(db_item, k, v)
     db.commit()
     db.refresh(db_item)
-    if get_active_source() == "csv":
-        set_active_source("db")
+    # NOTE: active source is NOT changed here
     log_audit("INVENTORY_UPDATE", current_user.email,
               f"item_id={item_id} product={item.name}")
     return {"message": f"'{item.name}' updated successfully."}
@@ -126,6 +121,5 @@ def delete_inventory(
               f"item_id={item_id} product={name}")
     db.delete(db_item)
     db.commit()
-    if get_active_source() == "csv":
-        set_active_source("db")
+    # NOTE: active source is NOT changed here
     return {"message": f"'{name}' removed from inventory."}

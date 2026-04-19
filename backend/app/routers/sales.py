@@ -1,9 +1,8 @@
 """
 Sales Router — FIXED
-
-Same root cause fix as inventory_router.py:
-After any write (add/delete), switch active source to 'db'
-so the new record is immediately visible when the page re-fetches.
+- Writes always go to DB regardless of active source
+- REMOVED: auto-switching active source to 'db' after writes
+  (source switching is user's explicit choice only)
 """
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
@@ -17,17 +16,17 @@ from app.core.security import get_current_user, require_role
 from app.models.user import User, RoleEnum
 from app.core.rate_limiter import limiter, LIMITS
 from app.core.logger import log_audit
-from app.core.db_config import get_active_source, load_csv_data, set_active_source
+from app.core.db_config import get_active_source, load_csv_data
 
 router = APIRouter(prefix="/sales", tags=["Sales"])
 
 
 class SalesRequest(BaseModel):
     product:  str
-    sku:      Optional[str]   = None
+    sku:      Optional[str]  = None
     quantity: int
     amount:   float
-    category: Optional[str]  = None
+    category: Optional[str] = None
 
 
 def _sale_to_dict(s: Sales) -> dict:
@@ -60,6 +59,7 @@ def add_sale(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_role(RoleEnum.admin, RoleEnum.manager))
 ):
+    # Always write to DB regardless of active source
     sale = Sales(
         product=item.product, sku=item.sku, quantity=item.quantity,
         amount=item.amount, category=item.category, sale_date=datetime.utcnow()
@@ -95,11 +95,16 @@ def add_sale(
         log_audit("INVENTORY_DEDUCT", current_user.email,
                   f"product={inv_item.name} {old_qty}->{inv_item.quantity}")
 
-    # Switch source to DB so new sale is immediately visible
-    if get_active_source() == "csv":
-        set_active_source("db")
+    # NOTE: active source is NOT changed here — user controls source switching explicitly
+    active = get_active_source()
+    response = {
+        "message": f"Sale recorded: '{item.product}' — {item.quantity} units for ${item.amount}.",
+        "id": sale.id,
+    }
+    # Inform frontend if CSV is active so it can show a helpful note (but NOT auto-switch)
+    if active == "csv":
+        response["source_note"] = "Sale saved to database. Switch source to 'DB' to see it in this view."
 
-    response = {"message": f"Sale recorded: '{item.product}' — {item.quantity} units for ${item.amount}.", "id": sale.id}
     if inventory_update:
         response["inventory_update"] = inventory_update
         if inventory_update["low_stock"]:
@@ -125,6 +130,5 @@ def delete_sale(
               f"sale_id={sale_id} product={product}")
     db.delete(sale)
     db.commit()
-    if get_active_source() == "csv":
-        set_active_source("db")
+    # NOTE: active source is NOT changed here
     return {"message": f"Sale record for '{product}' deleted."}

@@ -283,3 +283,6 @@ then update inventory
 2026-04-20 01:57:18 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
 2026-04-20 01:57:19 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
 2026-04-20 01:57:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=last 30 days revenue
+2026-04-20 04:24:08 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 04:24:23 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 04:24:27 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello

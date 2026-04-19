@@ -7,9 +7,8 @@ load_dotenv()
 
 def get_llm():
     return ChatOpenAI(
-        model=os.getenv("LLM_MODEL", "openai/gpt-oss-120b:free"),
-        openai_api_key=os.getenv("OPENROUTER_API_KEY"),
-        openai_api_base=os.getenv("OPENROUTER_BASE_URL"),
+        model=os.getenv("LLM_MODEL", "gpt-4o-mini"),
+        openai_api_key=os.getenv("OPENAI_API_KEY"),
         temperature=0.1,
         max_retries=3,
         request_timeout=60,
@@ -17,14 +16,12 @@ def get_llm():
 
 
 def invoke_with_fallback(llm, prompt: str) -> str:
-    """Invoke LLM with fallback handling for empty responses."""
     try:
         response = llm.invoke(prompt)
         content = response.content.strip()
         if content:
             return content
 
-        # Retry once if empty
         response = llm.invoke(prompt)
         content = response.content.strip()
         if content:
@@ -43,7 +40,6 @@ def invoke_with_fallback(llm, prompt: str) -> str:
 
 
 async def astream_with_fallback(llm, prompt: str):
-    """Async stream with fallback for empty responses."""
     try:
         full_content = ""
         async for chunk in llm.astream(prompt):
@@ -52,7 +48,6 @@ async def astream_with_fallback(llm, prompt: str):
                 yield chunk.content
 
         if not full_content.strip():
-            # Fallback to regular invoke
             response = llm.invoke(prompt)
             content = response.content.strip()
             if content:
