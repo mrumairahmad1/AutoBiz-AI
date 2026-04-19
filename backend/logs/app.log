@@ -6399,3 +6399,46 @@ then update inventory
 2026-04-20 04:41:01 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
 2026-04-20 04:41:02 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
 2026-04-20 04:41:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:42:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:42:02 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:42:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:43:01 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:43:02 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:43:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:44:01 | INFO     | app.core.logger:59 - API | OPTIONS /inventory/ | user=anonymous | status=200
+2026-04-20 04:44:01 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:44:02 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:44:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:01 | INFO     | app.core.logger:59 - API | OPTIONS /sales/ | user=anonymous | status=200
+2026-04-20 04:45:01 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:02 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:45:02 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:42 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:43 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:45:43 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:46 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:46 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:45:47 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:45:48 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:45:50 | INFO     | app.core.logger:59 - API | OPTIONS /stream/message | user=anonymous | status=200
+2026-04-20 04:45:50 | INFO     | app.core.logger:64 - AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 04:45:55 | INFO     | app.core.logger:59 - API | POST /stream/message | user=anonymous | status=200
+2026-04-20 04:46:05 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:46:05 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:46:06 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:46:06 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:46:08 | INFO     | app.core.logger:59 - API | OPTIONS /auth/login | user=anonymous | status=200
+2026-04-20 04:46:09 | INFO     | app.core.logger:54 - AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 04:46:09 | INFO     | app.core.logger:59 - API | POST /auth/login | user=anonymous | status=200
+2026-04-20 04:46:10 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:46:10 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:46:10 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:46:10 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:46:13 | INFO     | app.core.logger:64 - AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 04:46:13 | INFO     | app.core.logger:59 - API | POST /stream/message | user=anonymous | status=200
+2026-04-20 04:46:40 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:46:40 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:47:10 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:47:11 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
+2026-04-20 04:47:41 | INFO     | app.core.logger:59 - API | GET /inventory/ | user=anonymous | status=200
+2026-04-20 04:47:41 | INFO     | app.core.logger:59 - API | GET /sales/ | user=anonymous | status=200
