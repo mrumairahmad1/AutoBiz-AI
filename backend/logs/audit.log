@@ -1,0 +1,285 @@
+2026-03-18 22:32:02 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:41 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:41 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:43 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:44 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:45 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:46 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:48 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:49 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:32:50 | AUDIT | AUDIT | user=admin@test.com | action=LOGIN | details=role=manager
+2026-03-18 22:34:20 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 22:34:27 | AUDIT | AUDIT | user=superadmin@test.com | action=AI_QUERY | intent=sales | query=show sales
+2026-03-18 22:41:40 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 22:41:48 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 22:46:08 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 22:46:52 | AUDIT | AUDIT | user=superadmin@test.com | action=AI_QUERY | intent=inventory | query=show stocks
+2026-03-18 22:47:06 | AUDIT | AUDIT | user=superadmin@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue?
+2026-03-18 22:56:39 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 23:21:13 | AUDIT | AUDIT | user=superadmin@test.com | action=LOGIN | details=role=admin
+2026-03-18 23:22:44 | AUDIT | AUDIT | user=superadmin@test.com | action=AI_QUERY | intent=sales | query=Total revenue?
+2026-03-22 03:06:13 | AUDIT | AUDIT | user=CEO@test.com | action=REGISTER | details=role=admin
+2026-03-22 03:07:18 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-03-22 03:10:40 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-03-22 03:11:11 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=I want you to please tell which item is short in stock
+2026-03-22 03:14:01 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=I want you to please tell which item is short in stock
+
+2026-03-22 03:15:10 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=show inventory
+2026-03-22 03:26:26 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=show stocks
+2026-03-22 03:26:40 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=show sales
+2026-03-22 03:26:58 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=Total revenue?
+2026-03-22 03:28:00 | AUDIT | AUDIT | user=manager@test.com | action=REGISTER | details=role=manager
+2026-04-05 22:39:16 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-06 14:48:32 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-06 14:48:59 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=Total revenue?
+2026-04-06 14:55:36 | AUDIT | AUDIT | user=manager@test.com | action=SALE_ADD | details=product=LAPTOP qty=10 amount=$150.0
+2026-04-06 14:56:55 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=show sales
+2026-04-06 15:11:52 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=show sales
+2026-04-06 15:13:03 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=about business
+2026-04-06 15:13:37 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=Total revenue?
+2026-04-06 15:13:52 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=sales
+
+2026-04-06 15:14:02 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=sales
+2026-04-06 15:14:15 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=sales
+2026-04-07 22:07:13 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-07 22:20:27 | AUDIT | AUDIT | user=manager@test.com | action=SALE_ADD | details=product=sdc qty=3 amount=$32.0
+2026-04-07 22:20:38 | AUDIT | AUDIT | user=manager@test.com | action=SALE_DELETE | details=sale_id=1 product=LAPTOP
+2026-04-07 22:20:41 | AUDIT | AUDIT | user=manager@test.com | action=SALE_DELETE | details=sale_id=2 product=sdc
+2026-04-08 15:53:32 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-08 15:54:24 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-08 15:56:19 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-08 16:02:11 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-08 16:02:24 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=Which products are low on stock?
+2026-04-08 16:03:04 | AUDIT | AUDIT | user=CEO@test.com | action=ROLE_CHANGE | details=user=manager@test.com from=manager to=viewer
+2026-04-08 16:03:04 | AUDIT | AUDIT | user=CEO@test.com | action=ROLE_CHANGE | details=user=manager@test.com from=manager to=viewer
+2026-04-08 16:03:11 | AUDIT | AUDIT | user=CEO@test.com | action=ROLE_CHANGE | details=user=manager@test.com from=viewer to=manager
+2026-04-08 16:21:04 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-08 16:51:07 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-09 09:08:05 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-09 09:08:15 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=Which products are low on stock?
+2026-04-09 16:01:00 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-09 16:01:07 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-11 13:29:06 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-11 16:48:42 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-11 16:50:46 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-11 16:51:24 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=what is your name?
+2026-04-11 16:55:18 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 02:04:30 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 02:04:36 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-12 02:05:06 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=business
+2026-04-12 02:06:31 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=stocks
+2026-04-12 02:07:50 | AUDIT | AUDIT | user=CEO@test.com | action=SALE_ADD | details=product=hgshdbs qty=123 amount=$23.0
+2026-04-12 02:08:43 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_ADD | details=product=fgvhbjjkn sku=vgbhu qty=234
+2026-04-12 02:10:15 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-12 02:11:17 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-12 03:39:15 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-12 03:41:34 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 03:42:13 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue?
+2026-04-12 03:42:36 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-12 03:42:46 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=revenue
+2026-04-12 03:43:12 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=which item is low in stocks?
+2026-04-12 03:43:31 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=what is you name?
+2026-04-12 03:44:25 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=tell me the important strategy to main stocks according to sales
+2026-04-12 03:45:25 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=is monitor currently in the stocks?
+2026-04-12 03:45:43 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=and in sales?
+2026-04-12 03:46:07 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=what is the last query?
+2026-04-12 03:48:10 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=if we add a product in inventory for example mobile and it sales 1000 piece in a single month
+and a 
+2026-04-12 03:50:20 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=Property 'env' does not exist on type 'ImportMeta'.
+2026-04-12 03:50:32 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=Which items have stock below safety level but sales above average last 7 days?
+2026-04-12 03:51:09 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=List items where:
+
+inventory < reorder point
+AND daily sales trend is increasing
+2026-04-12 03:51:49 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=Generate a sales report
+2026-04-12 03:52:07 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What are our profit margins?
+2026-04-12 03:52:17 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=Show me recent purchase orders
+2026-04-12 03:52:56 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=suggest me a strategy to boost my sales
+2026-04-12 03:54:01 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=suggest me a strategy to boost my sales of products which are very slow in selling
+2026-04-12 03:55:05 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=rewrite the previous response
+2026-04-12 03:58:29 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_DELETE | details=item_id=1 product=fgvhbjjkn
+2026-04-12 03:58:36 | AUDIT | AUDIT | user=CEO@test.com | action=SALE_DELETE | details=sale_id=3 product=hgshdbs
+2026-04-12 04:04:14 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=how are you
+2026-04-12 04:04:19 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=sales
+2026-04-12 04:04:39 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=thankyou
+2026-04-12 04:05:13 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=hello
+2026-04-12 04:05:15 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=hi
+2026-04-12 04:12:05 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 04:12:30 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=Which products are low on stock?
+2026-04-12 04:17:54 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=which item is top trending in sales and should be restock?
+2026-04-12 04:19:01 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 13:20:50 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 13:21:07 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=what is trending?
+2026-04-12 13:24:05 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=in last 7 days
+2026-04-12 13:24:40 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=now show only last 3 days sale
+2026-04-12 13:28:56 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=is there any pending order?
+2026-04-12 13:32:10 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=can you access my orders page/
+2026-04-12 14:22:23 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 14:22:36 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=REGISTER | details=role=admin
+2026-04-12 14:23:32 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-12 14:27:40 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-12 14:27:50 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=show sales
+2026-04-12 14:28:26 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=in last 7 days
+2026-04-12 14:28:58 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-12 14:30:56 | AUDIT | AUDIT | user=manager@test.com | action=LOGIN | details=role=manager
+2026-04-12 14:31:41 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-12 14:37:40 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=trending item
+2026-04-12 14:43:39 | AUDIT | AUDIT | user=manager@test.com | action=SALE_ADD | details=product=ghj qty=21 amount=$213423.0
+2026-04-12 14:43:48 | AUDIT | AUDIT | user=manager@test.com | action=SALE_DELETE | details=sale_id=104 product=ghj
+2026-04-12 14:44:58 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=in last 7 days
+2026-04-12 14:45:22 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-12 14:50:35 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Which products have high stock but low turnover, indicating dead inventory? Suggest liquidation stra
+2026-04-12 14:51:04 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Detect products with abnormal stock levels compared to category average (outliers).
+2026-04-12 14:51:37 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=If demand increases by 20%, which items will run out first based on current stock?
+2026-04-12 14:52:04 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Which suppliers should be replaced based on:
+
+long lead time
+low stock availability
+2026-04-12 14:52:31 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Calculate inventory risk score based on:
+low stock
+high lead time
+high demand category
+2026-04-12 14:53:55 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=If we reduce inventory by 15% across all categories, which products will be most affected in terms o
+2026-04-12 14:54:13 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Simulate a supply delay of 7 days — which SKUs will stock out first?
+2026-04-12 14:55:06 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=Can you identify products that are sitting in stock for too long but not selling much? I want to see
+2026-04-12 14:55:37 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=“Are there any suppliers causing delays that are affecting our stock availability?”
+2026-04-12 14:57:19 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=end | query=how are you?
+2026-04-12 14:58:51 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“I want a deep analysis of our current inventory situation. Identify products that are currently ove
+2026-04-12 14:59:19 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=inventory | query=“Are there any suppliers causing delays that are affecting our stock availability?”
+2026-04-12 14:59:49 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=I want a deep analysis of our current inventory situation. Identify products that are currently over
+2026-04-12 15:00:10 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“Analyze sales data over time and identify any seasonal or cyclical patterns across products or cate
+2026-04-12 15:00:52 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“Perform a comprehensive sales performance analysis across all products and categories. Identify whi
+2026-04-12 15:01:44 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“I need a complete overview of how well our inventory is aligned with actual sales performance. Iden
+2026-04-12 15:08:50 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“I need a complete overview of how well our inventory is aligned with actual sales performance. Iden
+2026-04-12 15:09:18 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=quantify the business impact in terms of potential lost revenue or capital tied up. Finally, provide
+2026-04-12 15:10:14 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=“I need a complete overview of how well our inventory is aligned with actual sales performance. Iden
+2026-04-12 15:22:29 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 15:22:53 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What are our profit margins?
+2026-04-12 15:26:05 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=add "ABC" to sales with SKU-12345432 Quantity: 100 Price: 128 Category qwe
+2026-04-12 15:27:47 | AUDIT | AUDIT | user=manager@test.com | action=AI_QUERY | intent=sales | query=what is updated revenue
+2026-04-12 15:30:48 | AUDIT | AUDIT | user=CEO@test.com | action=PO_CREATED | details=product=cv qty=23 total=$529.0
+2026-04-12 15:31:04 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 15:31:20 | AUDIT | AUDIT | user=CEO@test.com | action=PO_APPROVED | details=po_id=1 product=cv qty=23
+2026-04-12 15:47:12 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-12 15:47:54 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue?
+2026-04-12 18:26:42 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=FORGOT_PASSWORD | details=OTP sent
+2026-04-12 18:27:32 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PASSWORD_RESET | details=password changed via OTP
+2026-04-12 18:27:42 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-12 19:00:51 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PO_EDITED | details=po_id=1 product=cv qty=23 total=$529.0
+2026-04-12 19:00:58 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PO_EDITED | details=po_id=1 product=cv qty=23 total=$529.0
+2026-04-12 19:03:17 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-12 19:06:25 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory_action | query=restock the item which is low in quantity
+2026-04-12 19:08:42 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory_action | query=restock this product Stationery Product 19
+2026-04-12 20:06:03 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=Stationery Product 19 status in inventory
+2026-04-12 20:06:49 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=add 10 items of it in sales
+then update inventory
+2026-04-17 22:33:07 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-17 22:44:27 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=USER_DELETE | details=deleted_user=CEO@test.com
+2026-04-17 22:59:18 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-17 23:00:38 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=what is status of Clothing Product 1 in sales and stocks?
+2026-04-18 07:09:17 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-18 12:42:03 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-18 16:38:52 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-18 16:40:12 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-18 16:42:20 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-18 20:23:28 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SALE_ADD | details=product=fcgvhbj qty=567 amount=$567.0
+2026-04-18 20:24:48 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=how many items are in our stock right now?
+2026-04-18 20:56:18 | AUDIT | AUDIT | user=CEO@test.com | action=REGISTER | details=role=admin
+2026-04-18 22:29:31 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=FORGOT_PASSWORD | details=OTP sent
+2026-04-18 22:29:55 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 22:30:15 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 22:57:21 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 23:00:59 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 23:02:52 | AUDIT | AUDIT | user=CEO@test.com | action=CSV_IMPORT | details=type=inventory rows=100 file=inventory_usa_100.csv
+2026-04-18 23:03:08 | AUDIT | AUDIT | user=CEO@test.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-18 23:03:21 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-18 23:04:51 | AUDIT | AUDIT | user=CEO@test.com | action=SALE_ADD | details=product=Laptop qty=1 amount=$12.0
+2026-04-18 23:04:51 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_DEDUCT | details=product=Laptop 2->1
+2026-04-18 23:05:47 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_ADD | details=product=Laptop 1 sku=werf qty=10
+2026-04-18 23:05:56 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_DELETE | details=item_id=212 product=Laptop 1
+2026-04-18 23:06:55 | AUDIT | AUDIT | user=CEO@test.com | action=USER_DELETE | details=deleted=manager1@test.com
+2026-04-18 23:07:27 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=Which products are running low on stock?
+2026-04-18 23:07:48 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=stocks
+2026-04-18 23:08:48 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 23:09:11 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=sales
+2026-04-18 23:21:27 | AUDIT | AUDIT | user=CEO@test.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-18 23:21:53 | AUDIT | AUDIT | user=CEO@test.com | action=CSV_IMPORT | details=type=sales rows=100 file=sales_usa_100.csv
+2026-04-18 23:24:04 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-18 23:26:57 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-18 23:27:13 | AUDIT | AUDIT | user=CEO@test.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-19 01:09:51 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-19 02:12:53 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-19 02:13:49 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_ADD | details=product=bnm sku=vbnm qty=456
+2026-04-19 02:13:59 | AUDIT | AUDIT | user=CEO@test.com | action=INVENTORY_DELETE | details=item_id=213 product=bnm
+2026-04-19 02:15:28 | AUDIT | AUDIT | user=CEO@test.com | action=SALE_DELETE | details=sale_id=124 product=fcgvhbj
+2026-04-19 02:15:33 | AUDIT | AUDIT | user=CEO@test.com | action=SALE_DELETE | details=sale_id=125 product=Laptop
+2026-04-19 02:16:23 | AUDIT | AUDIT | user=CEO@test.com | action=USER_DELETE | details=deleted=manager@test.com
+2026-04-19 02:16:52 | AUDIT | AUDIT | user=manager@test.com | action=REGISTER | details=role=manager
+2026-04-19 02:18:19 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-19 02:18:26 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=revnue?
+2026-04-19 02:18:58 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=inventory | query=stocks?
+2026-04-19 02:19:41 | AUDIT | AUDIT | user=CEO@test.com | action=LOGIN | details=role=admin
+2026-04-19 02:19:55 | AUDIT | AUDIT | user=CEO@test.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-19 02:22:35 | AUDIT | AUDIT | user=CEO@test.com | action=AI_QUERY | intent=end | query=how are you?
+2026-04-19 02:23:43 | AUDIT | AUDIT | user=CEO@test.com | action=PASSWORD_CHANGE | details=via account settings
+2026-04-19 12:01:34 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=FORGOT_PASSWORD | details=OTP sent
+2026-04-19 12:02:43 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PASSWORD_RESET | details=via OTP
+2026-04-19 12:02:56 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 12:04:59 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-19 12:05:08 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-19 12:05:59 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=what are sales of this month
+2026-04-19 12:08:16 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-19 12:09:57 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=REGISTER | details=role=admin
+2026-04-19 12:10:46 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=FORGOT_PASSWORD | details=OTP sent
+2026-04-19 12:11:54 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 12:14:48 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=sales | query=what is the total revenue
+2026-04-19 12:18:59 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=end | query=hello how are you
+2026-04-19 12:19:19 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=end | query=what is the weather today?
+2026-04-19 12:20:46 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=inventory | query=stocks
+2026-04-19 12:35:38 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-19 12:46:49 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=sales_action | query=add sales of 2 pieces of Phone on 2$ per piece also update inventory
+2026-04-19 13:25:29 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=inventory | query=what is in stock
+2026-04-19 13:30:49 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=inventory | query=what is the stock
+2026-04-19 13:32:11 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=sales | query=what is the forecasting of sales according to sales and inventory
+2026-04-19 13:41:07 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=end | query=hellow
+2026-04-19 13:41:40 | AUDIT | AUDIT | user=ranabilal8359@gmail.com | action=AI_QUERY | intent=end | query=what is the weather today?
+2026-04-19 16:48:50 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 16:51:27 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PO_CREATED | details=product=123 qty=234 total=$23.0
+2026-04-19 16:52:19 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=CSV_IMPORT | details=type=sales rows=100 file=sales_usa_100.csv
+2026-04-19 16:54:49 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=CSV_IMPORT | details=type=inventory rows=100 file=inventory_usa_100.csv
+2026-04-19 16:55:08 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=REGISTER | details=role=viewer
+2026-04-19 16:56:17 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-19 16:57:14 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 19:53:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 19:54:00 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=what is the stocks?
+2026-04-19 23:25:27 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 23:27:51 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-19 23:28:31 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=What is our total revenue this month?
+2026-04-20 01:00:58 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-20 01:01:15 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-20 01:01:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=add 20 banana in my inventory of 10$ each calculate total amount and add in inventory and update
+2026-04-20 01:03:39 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 01:03:49 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=add 20 apples in my inventory of 10$ each calculate total amount and add in inventory and update
+2026-04-20 01:04:13 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-20 01:29:19 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 01:29:38 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=last 30 days revenue
+2026-04-20 01:32:27 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=kya haal h
+2026-04-20 01:35:29 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-20 01:35:37 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=kse ho
+2026-04-20 01:41:32 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 01:41:48 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=how are you
+2026-04-20 01:42:04 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=inventory | query=stocks
+2026-04-20 01:44:23 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=INVENTORY_ADD | details=product=Banana sku=1qws qty=123
+2026-04-20 01:47:20 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 01:47:43 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=CSV_IMPORT | details=type=inventory rows=100 file=inventory_usa_100.csv
+2026-04-20 01:48:18 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=INVENTORY_ADD | details=product=banana sku=wsdee qty=123
+2026-04-20 01:48:57 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=INVENTORY_ADD | details=product=hi sku=hgju qty=123
+2026-04-20 01:49:23 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=revenue
+2026-04-20 01:55:36 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=PO_CREATED | details=product=ghj qty=78 total=$8989.0
+2026-04-20 01:55:51 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=USER_DELETE | details=deleted=CEO@test.com
+2026-04-20 01:55:58 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=USER_DELETE | details=deleted=mrumairahmad1612@gmail.com
+2026-04-20 01:56:19 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=REGISTER | details=role=manager
+2026-04-20 01:56:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=revenue
+2026-04-20 01:57:18 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 01:57:19 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 01:57:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=sales | query=last 30 days revenue

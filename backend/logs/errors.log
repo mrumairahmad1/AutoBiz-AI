@@ -1,0 +1,12 @@
+2026-04-12 03:38:03 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login attempt for ceo@test.com
+2026-04-12 03:38:23 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login attempt for ceo@test.com
+2026-04-12 14:23:55 | ERROR    | app.core.logger:69 - ERROR | context=auth/forgot-password | error=Email not configured. Set SMTP_USER and SMTP_PASS in .env
+2026-04-12 15:46:37 | ERROR    | app.core.logger:69 - ERROR | context=auth/forgot-password | error=Email not configured. Set SMTP_USER and SMTP_PASS in .env
+2026-04-17 22:32:54 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login attempt for CEO@test.com
+2026-04-17 22:33:01 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login attempt for CEO@test.com
+2026-04-19 16:01:49 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
+2026-04-19 16:19:37 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
+2026-04-19 16:19:54 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
+2026-04-19 16:28:13 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
+2026-04-19 19:53:12 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
+2026-04-19 19:53:29 | ERROR    | app.core.logger:69 - ERROR | context=auth/login | error=Failed login: umairhafiz0@gmail.com
