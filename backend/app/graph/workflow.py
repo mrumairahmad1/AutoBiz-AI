@@ -6,7 +6,13 @@ from app.agents.sales_agent import sales_agent
 
 
 def route_after_manager(state: AgentState) -> str:
-    return state["next"]
+    next_node = state["next"]
+    # Map action intents to their respective agent nodes
+    if next_node == "inventory_action":
+        return "inventory"
+    if next_node == "sales_action":
+        return "sales"
+    return next_node
 
 
 # Build graph

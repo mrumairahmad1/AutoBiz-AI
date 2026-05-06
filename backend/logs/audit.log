@@ -286,3 +286,44 @@ then update inventory
 2026-04-20 04:24:08 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=end | query=hello
 2026-04-20 04:24:23 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
 2026-04-20 04:24:27 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 04:45:50 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 04:46:09 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 04:46:13 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=end | query=hello
+2026-04-20 05:24:30 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=sales | query=what is the revenue of last 30 days
+2026-04-20 05:25:12 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=sales | query=what is the revenue of last 30 days
+2026-04-20 05:25:34 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 05:25:37 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=sales | query=what is the revenue of last 30 days
+2026-04-20 05:26:06 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=inventory | query=show stocks
+2026-04-20 05:27:19 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=what is the revenue of last 30 days
+2026-04-20 05:33:31 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=hello
+2026-04-20 05:33:44 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=show inventory
+2026-04-20 05:41:09 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 05:41:16 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=inventory
+2026-04-20 06:01:11 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=LOGIN | details=role=manager
+2026-04-20 06:01:20 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=show stocks
+2026-04-20 06:03:06 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=show inventory
+2026-04-20 06:03:41 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=show stocks
+2026-04-20 06:04:53 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=restock Oppo A54
+2026-04-20 06:05:09 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=restock Oppo A54
+2026-04-20 06:05:27 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=restock extreme low item
+2026-04-20 06:05:41 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=stocks?
+2026-04-20 06:06:03 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=revenue of last 30 days
+2026-04-20 06:07:08 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=AI_QUERY | intent=manager_stream | query=revenue of last 365 days
+2026-04-20 06:11:19 | AUDIT | AUDIT | user=mrumairahmad1612@gmail.com | action=INVENTORY_ADD | details=product=gb sku=fgh qty=123
+2026-04-20 06:11:41 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-20 06:11:59 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-20 06:13:10 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=INVENTORY_ADD | details=product=rty sku=rty qty=67
+2026-04-20 06:26:15 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-04-20 06:26:23 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=What is our total revenue this month?
+2026-04-20 06:27:39 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=restock this item "Headphones"
+2026-04-20 06:28:02 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=add new item in stock ghjy
+2026-04-20 06:28:49 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-04-20 06:29:20 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=INVENTORY_ADD | details=product=fghj sku=erty qty=567
+2026-04-20 06:29:45 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to db
+2026-04-20 06:30:50 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=hello how are you?
+2026-04-20 06:31:13 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=how to maximize our sales according to stocks
+2026-05-01 19:08:57 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=LOGIN | details=role=admin
+2026-05-01 19:09:07 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=SOURCE_SWITCH | details=switched to csv
+2026-05-01 19:09:19 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=What is our total revenue this month?
+2026-05-01 19:09:52 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=What is our total revenue ?
+2026-05-01 19:10:44 | AUDIT | AUDIT | user=umairhafiz0@gmail.com | action=AI_QUERY | intent=manager_stream | query=What is our total revenue last 30 days?

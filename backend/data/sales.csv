@@ -1,0 +1,102 @@
+id,product,sku,quantity,amount,unit_price,category,sale_date,region,sales_channel
+1,Canon DSLR Camera,,5,9157.4,1831.48,Wearables,2026-04-12 00:00:00,Los Angeles,Online
+2,Dell Inspiron Laptop,,5,6137.1,1227.42,Television,2026-04-04 00:00:00,New York,Online
+3,Canon DSLR Camera,,1,182.87,182.87,Cameras,2026-04-01 00:00:00,New York,Online
+4,Samsung Galaxy S21,,1,1440.03,1440.03,Laptops,2026-03-23 00:00:00,Chicago,Online
+5,Asus ROG Laptop,,5,9703.95,1940.79,Tablets,2026-04-07 00:00:00,Phoenix,Store
+6,Canon DSLR Camera,,3,4177.05,1392.35,Cameras,2026-03-31 00:00:00,Houston,Store
+7,JBL Speaker,,2,1144.94,572.47,Laptops,2026-03-19 00:00:00,Chicago,Online
+8,JBL Speaker,,4,5257.04,1314.26,Cameras,2026-03-21 00:00:00,Phoenix,Online
+9,iPhone 13,,3,4493.7,1497.9,Smartphones,2026-03-27 00:00:00,New York,Online
+10,JBL Speaker,,2,2416.74,1208.37,Audio,2026-04-06 00:00:00,Phoenix,Online
+11,Oppo A54,,5,8598.15,1719.63,Smartphones,2026-04-08 00:00:00,Los Angeles,Store
+12,Realme Narzo 50,,4,5990.12,1497.53,Smartphones,2026-04-11 00:00:00,Houston,Online
+13,Anker Power Bank,,2,1204.28,602.14,Accessories,2026-03-21 00:00:00,Houston,Online
+14,AirPods Pro,,4,2043.2,510.8,Cameras,2026-03-29 00:00:00,New York,Store
+15,Sony Headphones,,1,1260.5,1260.5,Audio,2026-03-24 00:00:00,Chicago,Store
+16,Sony Headphones,,5,1860.15,372.03,Accessories,2026-04-15 00:00:00,Los Angeles,Store
+17,Asus ROG Laptop,,1,195.1,195.1,Laptops,2026-04-05 00:00:00,New York,Store
+18,Xiaomi Redmi Note 11,,1,1111.23,1111.23,Smartphones,2026-03-23 00:00:00,Phoenix,Online
+19,Asus ROG Laptop,,1,819.37,819.37,Smartphones,2026-03-31 00:00:00,Phoenix,Online
+20,Lenovo ThinkPad,,5,6493.05,1298.61,Smartphones,2026-03-30 00:00:00,Los Angeles,Store
+21,iPhone 13,,4,7219.24,1804.81,Accessories,2026-03-21 00:00:00,Houston,Online
+22,Anker Power Bank,,5,3282.4,656.48,Tablets,2026-03-21 00:00:00,Phoenix,Online
+23,JBL Speaker,,2,971.02,485.51,Accessories,2026-04-14 00:00:00,Phoenix,Store
+24,Dell Inspiron Laptop,,5,3722.4,744.48,Cameras,2026-04-15 00:00:00,Chicago,Store
+25,Google Pixel 6,,4,2207.12,551.78,Cameras,2026-03-24 00:00:00,Phoenix,Online
+26,AirPods Pro,,4,3217.8,804.45,Tablets,2026-04-07 00:00:00,Phoenix,Online
+27,Samsung Smart TV 55,,2,2248.3,1124.15,Accessories,2026-03-23 00:00:00,Chicago,Store
+28,Google Pixel 6,,4,1818.0,454.5,Television,2026-03-24 00:00:00,Los Angeles,Store
+29,Google Pixel 6,,2,1059.96,529.98,Wearables,2026-03-19 00:00:00,New York,Online
+30,Dell Inspiron Laptop,,2,3425.94,1712.97,Wearables,2026-04-06 00:00:00,Los Angeles,Online
+31,Oppo A54,,1,1607.35,1607.35,Television,2026-03-21 00:00:00,Houston,Online
+32,Samsung Smart TV 55,,5,2196.4,439.28,Smartphones,2026-04-04 00:00:00,Chicago,Store
+33,Samsung Galaxy S21,,4,6292.32,1573.08,Tablets,2026-04-02 00:00:00,Houston,Store
+34,Dell Inspiron Laptop,,1,1432.1,1432.1,Laptops,2026-04-08 00:00:00,Los Angeles,Store
+35,Sony Headphones,,5,2843.45,568.69,Laptops,2026-04-05 00:00:00,Chicago,Online
+36,Xiaomi Redmi Note 11,,4,1532.32,383.08,Cameras,2026-04-18 00:00:00,Houston,Online
+37,Xiaomi Redmi Note 11,,5,7925.75,1585.15,Audio,2026-04-06 00:00:00,Phoenix,Online
+38,Anker Power Bank,,2,2250.7,1125.35,Audio,2026-04-04 00:00:00,Houston,Store
+39,Xiaomi Redmi Note 11,,3,5046.39,1682.13,Accessories,2026-04-07 00:00:00,New York,Online
+40,Dell Inspiron Laptop,,5,8337.9,1667.58,Television,2026-03-28 00:00:00,Los Angeles,Store
+41,Realme Narzo 50,,5,7173.55,1434.71,Laptops,2026-03-29 00:00:00,Chicago,Online
+42,iPad Air,,1,596.0,596.0,Laptops,2026-04-04 00:00:00,Phoenix,Online
+43,Google Pixel 6,,1,1077.2,1077.2,Tablets,2026-03-25 00:00:00,Phoenix,Store
+44,Dell Inspiron Laptop,,5,8804.05,1760.81,Wearables,2026-04-15 00:00:00,Chicago,Online
+45,Samsung Galaxy S21,,1,1652.22,1652.22,Television,2026-04-03 00:00:00,Los Angeles,Store
+46,Canon DSLR Camera,,5,5535.3,1107.06,Smartphones,2026-04-15 00:00:00,New York,Online
+47,Google Pixel 6,,3,5865.78,1955.26,Cameras,2026-03-26 00:00:00,New York,Store
+48,Samsung Galaxy S21,,1,1090.15,1090.15,Cameras,2026-03-29 00:00:00,Houston,Store
+49,Anker Power Bank,,3,862.05,287.35,Tablets,2026-03-19 00:00:00,Phoenix,Store
+50,JBL Speaker,,3,5673.78,1891.26,Tablets,2026-04-05 00:00:00,Los Angeles,Online
+51,Samsung Galaxy S21,,1,1971.87,1971.87,Wearables,2026-04-11 00:00:00,Houston,Online
+52,Lenovo ThinkPad,,3,4282.35,1427.45,Cameras,2026-04-15 00:00:00,Los Angeles,Store
+53,Canon DSLR Camera,,4,371.6,92.9,Tablets,2026-04-07 00:00:00,New York,Store
+54,Xiaomi Redmi Note 11,,3,4047.72,1349.24,Television,2026-04-06 00:00:00,Los Angeles,Store
+55,iPhone 13,,5,8529.7,1705.94,Cameras,2026-03-25 00:00:00,Los Angeles,Online
+56,iPad Air,,5,285.6,57.12,Accessories,2026-04-02 00:00:00,Phoenix,Online
+57,HP Pavilion Laptop,,5,3989.25,797.85,Television,2026-04-11 00:00:00,Chicago,Store
+58,Xiaomi Redmi Note 11,,3,3882.69,1294.23,Audio,2026-03-26 00:00:00,New York,Online
+59,Apple Watch Series 7,,5,463.9,92.78,Accessories,2026-04-12 00:00:00,New York,Store
+60,AirPods Pro,,3,4775.4,1591.8,Laptops,2026-04-08 00:00:00,Houston,Store
+61,Canon DSLR Camera,,5,2563.95,512.79,Tablets,2026-03-21 00:00:00,New York,Online
+62,Lenovo ThinkPad,,2,3794.1,1897.05,Wearables,2026-04-09 00:00:00,Los Angeles,Store
+63,Dell Inspiron Laptop,,2,3788.96,1894.48,Tablets,2026-03-29 00:00:00,New York,Store
+64,iPad Air,,3,3763.32,1254.44,Smartphones,2026-03-20 00:00:00,Houston,Store
+65,AirPods Pro,,3,129.33,43.11,Smartphones,2026-04-02 00:00:00,Los Angeles,Online
+66,Asus ROG Laptop,,3,2826.78,942.26,Television,2026-03-24 00:00:00,Chicago,Store
+67,Samsung Smart TV 55,,2,2789.92,1394.96,Smartphones,2026-04-12 00:00:00,Chicago,Online
+68,AirPods Pro,,3,4626.15,1542.05,Accessories,2026-04-16 00:00:00,Houston,Store
+69,Asus ROG Laptop,,4,3062.44,765.61,Smartphones,2026-04-10 00:00:00,Los Angeles,Store
+70,AirPods Pro,,5,870.85,174.17,Wearables,2026-04-16 00:00:00,Los Angeles,Store
+71,AirPods Pro,,4,1959.44,489.86,Tablets,2026-04-03 00:00:00,Los Angeles,Store
+72,Logitech Mouse,,3,4669.17,1556.39,Tablets,2026-03-20 00:00:00,Houston,Store
+73,Google Pixel 6,,1,1871.05,1871.05,Television,2026-04-14 00:00:00,New York,Store
+74,Samsung Smart TV 55,,5,9526.8,1905.36,Laptops,2026-04-04 00:00:00,New York,Online
+75,Xiaomi Redmi Note 11,,4,397.0,99.25,Audio,2026-04-06 00:00:00,Chicago,Store
+76,Realme Narzo 50,,1,1397.79,1397.79,Tablets,2026-04-04 00:00:00,Chicago,Store
+77,Apple Watch Series 7,,4,6435.96,1608.99,Cameras,2026-04-12 00:00:00,Phoenix,Store
+78,Apple Watch Series 7,,1,1736.7,1736.7,Tablets,2026-04-04 00:00:00,Houston,Online
+79,Nikon D3500,,1,1313.94,1313.94,Television,2026-04-16 00:00:00,New York,Store
+80,Apple Watch Series 7,,1,1147.0,1147.0,Laptops,2026-04-18 00:00:00,Phoenix,Online
+81,Oppo A54,,1,1680.25,1680.25,Television,2026-04-10 00:00:00,Los Angeles,Store
+82,Logitech Mouse,,2,654.56,327.28,Wearables,2026-03-23 00:00:00,Phoenix,Store
+83,Samsung Smart TV 55,,2,2214.86,1107.43,Wearables,2026-04-04 00:00:00,New York,Online
+84,Realme Narzo 50,,4,7341.92,1835.48,Laptops,2026-04-08 00:00:00,Chicago,Store
+85,Nikon D3500,,3,5391.9,1797.3,Wearables,2026-03-31 00:00:00,Houston,Online
+86,Realme Narzo 50,,5,4796.3,959.26,Cameras,2026-04-07 00:00:00,Los Angeles,Store
+87,Realme Narzo 50,,1,866.57,866.57,Accessories,2026-04-15 00:00:00,New York,Store
+88,JBL Speaker,,2,571.62,285.81,Tablets,2026-03-30 00:00:00,Houston,Store
+89,Lenovo ThinkPad,,1,188.23,188.23,Laptops,2026-03-20 00:00:00,Houston,Store
+90,Google Pixel 6,,5,316.4,63.28,Audio,2026-03-24 00:00:00,Chicago,Store
+91,Samsung Smart TV 55,,5,6822.55,1364.51,Smartphones,2026-03-22 00:00:00,Phoenix,Store
+92,Dell Inspiron Laptop,,2,1367.04,683.52,Tablets,2026-03-26 00:00:00,Los Angeles,Online
+93,Google Pixel 6,,2,1976.6,988.3,Wearables,2026-04-17 00:00:00,Phoenix,Store
+94,Samsung Smart TV 55,,3,5174.52,1724.84,Smartphones,2026-04-01 00:00:00,Phoenix,Store
+95,Logitech Mouse,,5,7307.65,1461.53,Audio,2026-04-18 00:00:00,Los Angeles,Store
+96,JBL Speaker,,1,916.28,916.28,Accessories,2026-03-22 00:00:00,New York,Store
+97,Sony Headphones,,4,4163.68,1040.92,Laptops,2026-03-25 00:00:00,Houston,Online
+98,Sony Headphones,,5,3858.05,771.61,Tablets,2026-04-18 00:00:00,Chicago,Online
+99,Samsung Smart TV 55,,1,113.93,113.93,Audio,2026-04-15 00:00:00,New York,Online
+100,Nikon D3500,,2,1718.12,859.06,Tablets,2026-03-26 00:00:00,Los Angeles,Store
+101,Oppo A54,,15,25203.75,,,2026-05-04 18:49:40,,

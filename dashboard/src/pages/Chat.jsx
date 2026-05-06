@@ -1,10 +1,21 @@
+// Chat.jsx - FIXED
+// When the agent performs any write (add/edit/delete/restock) the SSE done
+// event now carries action_type ("inventory_write" or "sales_write").
+// Chat.jsx dispatches window CustomEvent "autobiz:data-changed" immediately
+// so Inventory.jsx and Sales.jsx re-fetch data without waiting for the poll.
+
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import Navbar from '../components/Navbar.jsx'
 
 const HISTORY_KEY = 'autobiz_manager_history'
-const loadHistory = () => { try { const r = sessionStorage.getItem(HISTORY_KEY); if (r) return JSON.parse(r) } catch {} return null }
-const saveHistory = msgs => { try { sessionStorage.setItem(HISTORY_KEY, JSON.stringify(msgs)) } catch {} }
+const loadHistory = () => {
+  try { const r = sessionStorage.getItem(HISTORY_KEY); if (r) return JSON.parse(r) } catch {}
+  return null
+}
+const saveHistory = msgs => {
+  try { sessionStorage.setItem(HISTORY_KEY, JSON.stringify(msgs)) } catch {}
+}
 
 const cleanResponse = text => {
   if (!text) return text
@@ -43,10 +54,6 @@ const SUGGESTIONS = [
 
 const fmtTime = ts => ts ? new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
 
-/**
- * Returns true if the message content looks like an error/API-failure response.
- * We suppress the accuracy badge for these cases.
- */
 function isErrorResponse(content) {
   if (!content) return true
   const lower = content.toLowerCase()
@@ -65,17 +72,10 @@ function isErrorResponse(content) {
 }
 
 function AccuracyBadge({ accuracy, responseTime, intent, content, streaming }) {
-  // Never show while still streaming
   if (streaming) return null
-
-  // Never show on error or API-limit responses
   if (isErrorResponse(content)) return null
-
-  // Only show for business intents that actually went through an agent
   const businessIntents = ['sales', 'inventory', 'sales_action', 'inventory_action']
   if (!businessIntents.includes(intent)) return null
-
-  // Only show once accuracy is available (a real number, not null/undefined)
   if (accuracy === null || accuracy === undefined || typeof accuracy !== 'number') return null
 
   const color = accuracy >= 95 ? 'var(--green)' : accuracy >= 90 ? 'var(--amber)' : 'var(--red)'
@@ -98,11 +98,20 @@ function AccuracyBadge({ accuracy, responseTime, intent, content, streaming }) {
   )
 }
 
+// Dispatch a browser event so Inventory/Sales pages re-fetch immediately
+function notifyDataChanged(actionType) {
+  try {
+    window.dispatchEvent(
+      new CustomEvent('autobiz:data-changed', { detail: { type: actionType } })
+    )
+  } catch (_) {}
+}
+
 export default function Chat() {
   const [messages, setMessages] = useState(() => loadHistory() || [WELCOME])
   const [input,    setInput]    = useState('')
   const [loading,  setLoading]  = useState(false)
-  const { token } = useAuth()
+  const { token }  = useAuth()
   const bottomRef   = useRef(null)
   const textareaRef = useRef(null)
 
@@ -120,7 +129,6 @@ export default function Chat() {
     const historyPayload = buildHistory(messages)
     const userMsg = { role: 'user', content: currentInput, ts: Date.now() }
 
-    // Add user message + placeholder assistant message
     setMessages(p => [
       ...p,
       userMsg,
@@ -137,8 +145,11 @@ export default function Chat() {
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
       const res = await fetch(`${apiUrl}/stream/message`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
         body: JSON.stringify({ message: currentInput, history: historyPayload }),
       })
       if (!res.ok) throw new Error(`Stream failed: ${res.status}`)
@@ -149,43 +160,54 @@ export default function Chat() {
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
+
         for (const line of decoder.decode(value).split('\n')) {
           if (!line.startsWith('data: ')) continue
           try {
             const data = JSON.parse(line.slice(6))
+
+            // Accumulate streamed tokens
             if (data.token && !data.done) {
               setMessages(p => {
                 const u = [...p]
-                u[u.length - 1] = { ...u[u.length - 1], content: u[u.length - 1].content + data.token }
+                u[u.length - 1] = {
+                  ...u[u.length - 1],
+                  content: u[u.length - 1].content + data.token,
+                }
                 return u
               })
             }
+
+            // Final done event
             if (data.done) {
+              // Immediately refresh whichever page is affected
+              if (data.action_type) {
+                notifyDataChanged(data.action_type)
+              }
+
               setMessages(p => {
                 const u    = [...p]
                 const last = u[u.length - 1]
                 const acc  = data.accuracy || {}
                 const finalContent = cleanResponse(last.content)
-                const hasError = isErrorResponse(finalContent)
+                const hasError     = isErrorResponse(finalContent)
 
                 u[u.length - 1] = {
                   ...last,
                   content:      finalContent,
-                  // Only store accuracy metadata if this is NOT an error response
-                  accuracy:     hasError ? null : (acc.accuracy     ?? null),
-                  responseTime: hasError ? null : (acc.response_time_ms ?? null),
-                  intent:       hasError ? null : (acc.intent        ?? null),
+                  accuracy:     hasError ? null : (acc.accuracy          ?? null),
+                  responseTime: hasError ? null : (acc.response_time_ms  ?? null),
+                  intent:       hasError ? null : (acc.intent             ?? null),
                   streaming:    false,
                   isError:      hasError,
                 }
                 return u
               })
             }
-          } catch {}
+          } catch (_) {}
         }
       }
     } catch (err) {
-      // Network/stream error — mark as error so badge is suppressed
       setMessages(p => {
         const u = [...p]
         u[u.length - 1] = {
@@ -203,8 +225,14 @@ export default function Chat() {
     }
   }
 
-  const handleKeyDown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }
-  const handleChange  = e => { setInput(e.target.value); e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px' }
+  const handleKeyDown = e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
+  }
+  const handleChange = e => {
+    setInput(e.target.value)
+    e.target.style.height = 'auto'
+    e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px'
+  }
 
   return (
     <div style={{ background: 'var(--void)', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -220,7 +248,6 @@ export default function Chat() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 860, width: '100%', margin: '0 auto', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
 
-        {/* Header */}
         <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 34, height: 34, borderRadius: 'var(--r-md)', background: 'rgba(29,111,255,0.1)', border: '1px solid var(--border-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue-light)' }}><AgentIcon/></div>
@@ -240,7 +267,6 @@ export default function Chat() {
           </div>
         </div>
 
-        {/* Messages */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {messages.map((msg, i) => (
             <div key={i} className="msg-enter" style={{ display: 'flex', gap: 11, justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-end' }}>
@@ -250,10 +276,8 @@ export default function Chat() {
               <div>
                 <div style={{ maxWidth: 640, padding: msg.role === 'user' ? '11px 16px' : '13px 17px', borderRadius: msg.role === 'user' ? 'var(--r-lg) var(--r-lg) 4px var(--r-lg)' : 'var(--r-lg) var(--r-lg) var(--r-lg) 4px', background: msg.role === 'user' ? 'var(--blue)' : 'var(--card)', color: msg.role === 'user' ? '#fff' : 'var(--text)', border: msg.role === 'user' ? 'none' : '1px solid var(--border)', fontSize: 14, lineHeight: 1.75, whiteSpace: 'pre-wrap', wordBreak: 'break-word', boxShadow: msg.role === 'user' ? '0 4px 14px rgba(29,111,255,0.25)' : 'var(--shadow)' }}>
                   {msg.content}
-                  {loading && i === messages.length - 1 && msg.role === 'assistant' && !msg.content && <span className="cursor-blink"/>}
-                  {loading && i === messages.length - 1 && msg.role === 'assistant' && msg.content  && <span className="cursor-blink"/>}
+                  {loading && i === messages.length - 1 && msg.role === 'assistant' && <span className="cursor-blink"/>}
                 </div>
-                {/* Timestamp + accuracy — accuracy hidden on errors */}
                 {msg.ts && (
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4, gap: 12, paddingLeft: msg.role === 'assistant' ? 2 : 0, paddingRight: msg.role === 'user' ? 2 : 0 }}>
                     <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{fmtTime(msg.ts)}</span>
@@ -277,22 +301,32 @@ export default function Chat() {
           <div ref={bottomRef}/>
         </div>
 
-        {/* Suggestions */}
         {messages.length === 1 && (
           <div style={{ padding: '0 20px 14px', overflowX: 'auto', flexShrink: 0 }}>
             <div style={{ display: 'flex', gap: 8, paddingBottom: 2 }}>
-              {SUGGESTIONS.map((s, i) => <button key={i} className="sugg-chip" onClick={() => setInput(s)}>{s}</button>)}
+              {SUGGESTIONS.map((s, i) => (
+                <button key={i} className="sugg-chip" onClick={() => setInput(s)}>{s}</button>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Input */}
         <div style={{ padding: '12px 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(12,15,24,0.7)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
           <div style={{ background: 'var(--card)', border: '1px solid var(--border-md)', borderRadius: 'var(--r-lg)', padding: '10px 10px 10px 16px', display: 'flex', alignItems: 'flex-end', gap: 10 }}>
-            <textarea ref={textareaRef} style={{ flex: 1, border: 'none', outline: 'none', resize: 'none', fontSize: 14, lineHeight: 1.6, fontFamily: 'var(--font-body)', background: 'transparent', color: 'var(--text)', minHeight: 36, maxHeight: 120, overflow: 'auto' }}
-              value={input} onChange={handleChange} onKeyDown={handleKeyDown}
-              placeholder="Ask the Manager Agent about sales, inventory, or operations..." rows={1}/>
-            <button onClick={sendMessage} disabled={loading || !input.trim()} style={{ width: 36, height: 36, borderRadius: 'var(--r-md)', background: loading || !input.trim() ? 'var(--elevated)' : 'var(--blue)', border: `1px solid ${loading || !input.trim() ? 'var(--border)' : 'transparent'}`, color: loading || !input.trim() ? 'var(--text-dim)' : '#fff', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'var(--t)', boxShadow: loading || !input.trim() ? 'none' : '0 4px 12px rgba(29,111,255,0.3)' }}>
+            <textarea
+              ref={textareaRef}
+              style={{ flex: 1, border: 'none', outline: 'none', resize: 'none', fontSize: 14, lineHeight: 1.6, fontFamily: 'var(--font-body)', background: 'transparent', color: 'var(--text)', minHeight: 36, maxHeight: 120, overflow: 'auto' }}
+              value={input}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask the Manager Agent about sales, inventory, or operations..."
+              rows={1}
+            />
+            <button
+              onClick={sendMessage}
+              disabled={loading || !input.trim()}
+              style={{ width: 36, height: 36, borderRadius: 'var(--r-md)', background: loading || !input.trim() ? 'var(--elevated)' : 'var(--blue)', border: `1px solid ${loading || !input.trim() ? 'var(--border)' : 'transparent'}`, color: loading || !input.trim() ? 'var(--text-dim)' : '#fff', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'var(--t)', boxShadow: loading || !input.trim() ? 'none' : '0 4px 12px rgba(29,111,255,0.3)' }}
+            >
               {loading ? <div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }}/> : <SendIcon/>}
             </button>
           </div>

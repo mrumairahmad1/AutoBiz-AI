@@ -1,9 +1,13 @@
 """
-Stream Router — OLD PROJECT (LLM agents)
+Stream Router — FIXED
 - Instant rejection for off-topic/non-English (no LLM, no loading)
 - 99% on actions and basic reads
 - 95-98% on analytics
 - Accuracy only on sales/inventory responses
+- FIXED: action_type now emitted in SSE done event so Chat.jsx triggers
+  immediate live refresh on Inventory.jsx and Sales.jsx
+- FIXED: execute_sales_action called with correct 4-arg signature (no extra inv_db)
+- FIXED: both inventory_write and sales_write action_types handled correctly
 """
 import json, re, time, hashlib
 from fastapi import APIRouter, Depends, Request
@@ -14,7 +18,11 @@ from app.core.security import get_current_user
 from app.models.user import User
 from app.core.llm import get_llm, astream_with_fallback, invoke_with_fallback
 from app.agents.inventory_agent import get_inventory_summary, get_session, execute_inventory_action
-from app.agents.sales_agent import get_sales_summary, generate_sql, execute_sql, get_session as get_sales_session
+from app.agents.sales_agent import (
+    get_sales_summary, generate_sql, execute_sql,
+    execute_sales_action,
+    get_session as get_sales_session,
+)
 from app.core.rate_limiter import limiter, LIMITS
 from app.core.logger import log_ai_query, log_error
 
@@ -44,12 +52,23 @@ def _is_non_english(text: str) -> bool:
 
 def classify_intent(message: str) -> str:
     msg = message.lower()
-    inv_actions = ["restock","refill","replenish","add stock","update stock","set quantity",
-                   "change quantity","set stock","increase stock","delete item","remove item",
-                   "delete product","remove product","update item","edit item","create item",
-                   "add item","add product","new product","adjust"]
+    inv_actions = [
+        "restock","refill","replenish","add stock","update stock","set quantity",
+        "change quantity","set stock","increase stock","delete item","remove item",
+        "delete product","remove product","update item","edit item","create item",
+        "add item","add product","new product","adjust","decrease stock",
+        "reduce stock","remove stock","update quantity","edit quantity",
+        "set reorder","change reorder","modify stock","modify quantity",
+    ]
     if any(w in msg for w in inv_actions): return "inventory_action"
-    if any(w in msg for w in ["record sale","add sale","log sale","sold","new sale","delete sale","remove sale"]):
+    # Explicit sale-recording patterns
+    sale_action_kw = [
+        "record sale","add sale","log sale","new sale","delete sale","remove sale",
+        "mark as sold","record a sale","record the sale",
+    ]
+    if any(w in msg for w in sale_action_kw): return "sales_action"
+    # "sold X units of product" with a quantity — treat as record sale
+    if re.search(r'\bsold\s+\d+\s+(?:units?|pieces?|pcs?|items?)?\s*(?:of\s+)?', msg):
         return "sales_action"
     if any(w in msg for w in ["sale","revenue","order","trend","profit","earning","units sold","best sell","category","transaction"]):
         return "sales"
@@ -87,9 +106,9 @@ async def stream_response(message: str, history: List[HistoryMessage], user_emai
         yield f"data: {json.dumps({'token':'','done':True})}\n\n"
         return
 
-    intent     = classify_intent(message)
+    intent      = classify_intent(message)
     history_ctx = build_history_context(history)
-    start_time = time.time()
+    start_time  = time.time()
 
     # Follow-up detection
     if intent == "end" and history:
@@ -109,43 +128,65 @@ async def stream_response(message: str, history: List[HistoryMessage], user_emai
 
     llm           = get_llm()
     full_response = ""
+    # action_type sent in done event so Chat.jsx dispatches autobiz:data-changed
+    # which causes Inventory.jsx / Sales.jsx to re-fetch immediately (live update)
+    action_type   = None
 
     if intent == "inventory_action":
         db = get_session()
         try:
             inv_ctx = get_inventory_summary(db)
             action  = execute_inventory_action(message, db, llm, history_ctx)
-        finally: db.close()
+        finally:
+            db.close()
+
+        # Set live-refresh signal
+        if "__ACTION__:inventory_write" in action:
+            action_type = "inventory_write"
+
+        clean_action = action.replace("__ACTION__:inventory_write\n", "")
+
         prompt = f"""You are AutoBiz AI Manager Agent.
 {history_ctx}
 INVENTORY:
 {inv_ctx}
-ACTION DONE: {action}
+ACTION DONE: {clean_action}
 Request: {message}
 Reply in 1-2 sentences. State what changed and the new value. No *, **, #, - symbols."""
 
     elif intent == "sales_action":
-        db=get_sales_session(); inv_db=get_session()
+        # Correct call: execute_sales_action(message, db, llm, history_ctx) — 4 args
+        db = get_sales_session()
         try:
-            from app.agents.sales_agent import execute_sales_action
-            action = execute_sales_action(message, db, inv_db, llm, history_ctx)
-        finally: db.close(); inv_db.close()
+            action = execute_sales_action(message, db, llm, history_ctx)
+        finally:
+            db.close()
+
+        # Sales writes also deduct inventory — both pages need live refresh.
+        # Chat.jsx dispatches 'sales_write'; Inventory.jsx listens for it too.
+        if "__ACTION__:sales_write" in action:
+            action_type = "sales_write"
+
+        clean_action = action.replace("__ACTION__:sales_write\n", "")
+
         prompt = f"""You are AutoBiz AI Manager Agent.
 {history_ctx}
-ACTION DONE: {action}
+ACTION DONE: {clean_action}
 Request: {message}
 Reply in 1-2 sentences. State product, qty, amount, inventory update. No *, **, #, - symbols."""
 
     elif intent == "sales":
-        db=get_sales_session()
+        db = get_sales_session()
         try:
             sql_r = ""
             try:
                 sql = generate_sql(message, llm)
                 if sql: sql_r = execute_sql(sql, db)
-            except Exception as e: log_error(str(e),"stream/sql")
+            except Exception as e:
+                log_error(str(e), "stream/sql")
             ctx = get_sales_summary(db)
-        finally: db.close()
+        finally:
+            db.close()
         data = f"QUERY RESULTS:\n{sql_r}\n\nSALES DATA:\n{ctx}" if sql_r else f"SALES DATA:\n{ctx}"
         prompt = f"""You are AutoBiz AI Manager Agent.
 {history_ctx}
@@ -153,10 +194,12 @@ Reply in 1-2 sentences. State product, qty, amount, inventory update. No *, **, 
 Question: {message}
 Reply in 1-3 sentences. Include key numbers. No *, **, #, - symbols."""
 
-    else:
-        db=get_session()
-        try: ctx=get_inventory_summary(db)
-        finally: db.close()
+    else:  # inventory read
+        db = get_session()
+        try:
+            ctx = get_inventory_summary(db)
+        finally:
+            db.close()
         prompt = f"""You are AutoBiz AI Manager Agent.
 {history_ctx}
 INVENTORY: {ctx}
@@ -168,7 +211,12 @@ Reply in 1-3 sentences. Include key numbers. No *, **, #, - symbols."""
         yield f"data: {json.dumps({'token':token,'done':False})}\n\n"
 
     acc = _compute_accuracy(intent, message, full_response, start_time)
-    yield f"data: {json.dumps({'token':'','done':True,'accuracy':acc})}\n\n"
+    # CRITICAL: include action_type in done payload → Chat.jsx → notifyDataChanged()
+    # → Inventory.jsx / Sales.jsx re-fetch data immediately (real-time live update)
+    done_payload = {"token": "", "done": True, "accuracy": acc}
+    if action_type:
+        done_payload["action_type"] = action_type
+    yield f"data: {json.dumps(done_payload)}\n\n"
 
 
 @router.post("/message")
